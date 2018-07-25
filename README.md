@@ -1,4 +1,4 @@
-# Java Game
+# Mario Game
 
 Developed a playable mario game. 
 
