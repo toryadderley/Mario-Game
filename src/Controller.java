@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,6 @@ class Controller implements ActionListener, MouseListener, KeyListener {
     boolean keyUp;
     boolean keyDown;
     boolean Control;
-
 
     Controller(Model m) {
         model = m;
@@ -38,13 +38,16 @@ class Controller implements ActionListener, MouseListener, KeyListener {
         }
 
         char c = e.getKeyChar();
-        if(c == 'f'){
+        if(c == 'f') {
             if(model.mario.movingright)
                 model.sprites.add(new Fireball( model.mario.x + 60, model.mario.y, model));
             else if (model.mario.movingleft)
                 model.sprites.add(new Fireball(  model.mario.x - 60, model.mario.y, model));
-        }
 
+            model.F_Key = true;
+        }
+        else
+            model.F_Key = false;
     }
 
     public void keyReleased(KeyEvent e) {
@@ -61,24 +64,35 @@ class Controller implements ActionListener, MouseListener, KeyListener {
 
     void update() {
 
-        model.mario.remembermario();
+        model.mario.marioPastPosition();
 
         if(keyRight) {
             model.mario.x += 8;
             model.mario.movingright = true;
             model.mario.movingleft = false;
             model.mario.pic_num++;
+            model.RightKey = true;
         }
+        else if(!keyRight)
+            model.RightKey = false;
 
         if(keyLeft) {
             model.mario.x -= 8;
             model.mario.movingright = false;
             model.mario.movingleft = true;
             model.mario.pic_num++;
+            model.LeftKey = true;
         }
+        else if (!keyLeft)
+            model.LeftKey = false;
 
-        if (keyUp)
+
+        if (keyUp) {
             model.mario.jump();
+            model.UpKey = true;
+        }
+        else if(!keyUp)
+            model.UpKey = false;
     }
 
     void setView(View v) {

@@ -1,13 +1,11 @@
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
 
 class Goomba extends Sprite {
 
     Model model;
     static BufferedImage[] Goomba_Images = null;
-    int vert_vel = 0;
+    double vert_vel = 0;
     int burn;
     final int burnt = 3;
     boolean moveright = true;
@@ -16,12 +14,7 @@ class Goomba extends Sprite {
     int Ground = 420;
     int pic_num;
 
-    boolean istube() { return false;}
-    boolean ismario(){ return false;}
     boolean isgoomba(){ return true;}
-    boolean isfireball(){ return false;}
-    boolean iscoin() { return false;}
-
 
     Goomba(int xx, int yy, Model m){
 
@@ -33,11 +26,11 @@ class Goomba extends Sprite {
 
         Goomba_Images = new BufferedImage[3];
         if(Goomba_Images[0] == null)
-            Goomba_Images[0] = loadImage("images/goomba_1.png");
+            Goomba_Images[0] = super.loadImage("images/goomba_1.png");
         if(Goomba_Images[1] == null)
-            Goomba_Images[1] = loadImage("images/goomba_2.png");
+            Goomba_Images[1] = super.loadImage("images/goomba_2.png");
         if(Goomba_Images[2] == null)
-            Goomba_Images[2] = loadImage("images/goomba_on_fire.png");
+            Goomba_Images[2] = super.loadImage("images/goomba_on_fire.png");
     }
 
     void Move() {
@@ -59,7 +52,7 @@ class Goomba extends Sprite {
         }
     }
 
-    void Change_pics(){
+    void changePics(){
         count += 1;
 
         if (count == 7 && pic_num == 0) {
@@ -77,39 +70,29 @@ class Goomba extends Sprite {
             Sprite s = model.sprites.get(h);
 
             if(s.istube()) {
-                if(Intersect(x, y, width, height, s.x, s.y, s.width, s.height) && this.moveright == true) {
+                if(super.Intersect(x, y, width, height, s.x, s.y, s.width, s.height) && this.moveright == true) {
                     this.moveright = false;
                 }
-                else if (Intersect(x, y, width, height, s.x, s.y, s.width, s.height) && this.moveright == false) {
+                else if (super.Intersect(x, y, width, height, s.x, s.y, s.width, s.height) && this.moveright == false) {
                     this.moveright = true;
                 }
             }
 
             if(s.isfireball()) {
-                if(Intersect(x, y, width, height, s.x, s.y, s.width, s.height)) {
+                if(super.Intersect(x, y, width, height, s.x, s.y, s.width, s.height)) {
                     pic_num = 2;
                     model.sprites.remove(h);
                     i_am_hit = true;
+
                 }
             }
         }
     }
 
-    static boolean Intersect (int x1, int y1, int w1,
-                              int h1, int x2, int y2, int w2, int h2) {
-        if(x1 + w1 < x2)
-            return false;
-        if(x2 + w2 < x1)
-            return false;
-        if(y1 + h1 <= y2)
-            return false;
-        if (y1 >= y2 + h2)
-            return false;
-          return true;
-    }
+
 
     void Update(){
-        Change_pics();
+        changePics();
         Move();
         Gravity();
         Keep_Above_Ground();
@@ -126,17 +109,4 @@ class Goomba extends Sprite {
         g.drawImage(Goomba_Images[pic_num], x - model.CamPos(), y, null);
     }
 
-    BufferedImage loadImage(String picfile) {
-        BufferedImage image1 = null;
-
-        try {
-            image1 = ImageIO.read(new File(picfile));
-        }
-
-        catch(Exception e) {
-            e.printStackTrace(System.err);
-            System.exit(1);
-        }
-        return image1;
-    }
 }

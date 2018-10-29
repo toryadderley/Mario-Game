@@ -6,6 +6,10 @@ class Model {
     SoundClips soundclips;
     Mario mario;
     boolean gameover = false;
+    boolean UpKey = false;
+    boolean RightKey = false;
+    boolean LeftKey = false;
+    boolean F_Key = false;
     ArrayList<Sprite> sprites;
 
     Model() {
@@ -68,10 +72,10 @@ class Model {
             soundclips = new SoundClips("sounds/Overworld_Theme_Music.wav", 1, this);
         }
         catch( Exception e){
-            throw new RuntimeException("aa", e);
+            throw new RuntimeException("Could not play audio", e);
         }
 
-        soundclips.play();
+       // soundclips.play();
     }
 
     public void update() {

@@ -8,11 +8,8 @@ class Tube extends Sprite {
 
     Model model;
     static BufferedImage tube_image = null;
+
     boolean istube(){ return true;}
-    boolean ismario(){ return false;}
-    boolean isgoomba(){ return false;}
-    boolean isfireball(){ return false;}
-    boolean iscoin() { return false;}
 
     Tube(int xx, int yy, Model m) {
 
@@ -23,7 +20,7 @@ class Tube extends Sprite {
         height = 400;
 
         if(tube_image == null)
-            tube_image = loadImage("images/tube.png");
+            tube_image = super.loadImage("images/tube.png");
     }
 
     void Update() {  }
@@ -32,16 +29,4 @@ class Tube extends Sprite {
         g.drawImage(tube_image, x - model.CamPos(), y, null);
     }
 
-    BufferedImage loadImage(String picfile){
-        BufferedImage image1 = null;
-
-        try {
-            image1 = ImageIO.read(new File(picfile));
-        }
-        catch(Exception e) {
-            e.printStackTrace(System.err);
-            System.exit(1);
-        }
-        return image1;
-    }
 }
